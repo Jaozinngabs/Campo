@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogo do Campo Elétrico</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e6f7ff;
+      color: #333;
+      padding: 2rem;
+    }
+    h1, h2 {
+      color: #007acc;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px 0;
+      width: 100%;
+    }
+    .output {
+      margin-top: 1rem;
+      font-weight: bold;
+      background: #f0f8ff;
+      padding: 1rem;
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+    .exercise {
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Jogo do Campo Elétrico ⚡</h1>
+    <p>Digite os valores para descobrir o campo elétrico:</p>
+    <label for="charge">Carga (em μC):</label>
+    <input type="number" id="charge" step="any">
+
+    <label for="distance">Distância (em cm):</label>
+    <input type="number" id="distance" step="any">
+
+    <button onclick="calcularCampo()">Calcular Campo Elétrico</button>
+
+    <div class="output" id="resultado"></div>
+
+    <div class="exercise">
+      <h2>Exercício:</h2>
+      <p>Resolva: Uma carga de +2μC está a 4cm de um ponto. Qual é o campo elétrico?</p>
+      <button onclick="mostrarResposta()">Mostrar Resposta</button>
+      <div class="output" id="resposta"></div>
+    </div>
+  </div>
+
+  <script>
+    function calcularCampo() {
+      const k = 9 * Math.pow(10, 9);
+      const Q_input = parseFloat(document.getElementById("charge").value);
+      const r_input = parseFloat(document.getElementById("distance").value);
+
+      if (!Q_input || !r_input || r_input <= 0) {
+        document.getElementById("resultado").innerText = "Por favor, insira valores válidos.";
+        return;
+      }
+
+      const Q = Q_input * Math.pow(10, -6);
+      const r = r_input / 100;
+      const E = (k * Q) / (r * r);
+
+      const resultadoTexto = `Passo a passo:\n
+1. Converter microcoulomb para coulomb:
+   Q = ${Q_input} μC = ${Q_input} × 10⁻⁶ C = ${Q} C
+
+2. Converter cm para metros:
+   r = ${r_input} cm = ${r_input} / 100 = ${r} m
+
+3. Aplicar a fórmula:
+   E = (k × Q) / r²
+   E = (9 × 10⁹ × ${Q}) / (${r}²)
+   E = (${9 * Math.pow(10, 9) * Q}) / (${r ** 2})
+
+4. Resultado:
+   Campo elétrico: ${E.toFixed(2)} N/C`;
+
+      document.getElementById("resultado").innerText = resultadoTexto;
+    }
+
+    function mostrarResposta() {
+      const k = 9 * Math.pow(10, 9);
+      const Q = 2 * Math.pow(10, -6);
+      const r = 0.04;
+      const E = (k * Q) / (r * r);
+      const resultado = `1. Q = 2 μC = 2 × 10⁻⁶ C = ${Q} C
+2. r = 4 cm = 0.04 m
+3. E = (9 × 10⁹ × ${Q}) / (0.04²) = ${(k * Q).toFixed(2)} / ${r * r} = ${E.toFixed(2)} N/C`;
+      document.getElementById("resposta").innerText = resultado;
+    }
+  </script>
+</body>
+</html>
